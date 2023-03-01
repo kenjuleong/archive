@@ -1,0 +1,42 @@
+name: Run
+#  PUPPETEER_PRODUCT=firefox npm install
+on:
+  push:
+    branches: [ master ]
+  schedule:
+    - cron: "*/5 * * * *"
+  watch:
+    types: started
+    
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        node-version: [16.x]
+        
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/setup-node@v3
+
+    - name: Run
+      run: |
+        yarn add puppeteer@18.2.1
+        sudo apt install libgtk-3-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2 -y
+        yarn
+        yarn maintain
+    - name: Commit files
+      run: |
+        git config --local user.email "github-actions[bot]@users.noreply.github.com"
+        git config --local user.name "github-actions[bot]"
+        git commit -m "Took Screenshot" -a || true
+   
+    - name: Push changes
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        branch: ${{ github.ref }}
