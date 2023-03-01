@@ -25,8 +25,8 @@ urlList.forEach(async (url) => {
       const pages = await browser.pages();
       pages.forEach(async (currentPage) => {
         try {
-          const pageURL = (await currentPage.url()).slice(url.length);
-          await page.screenshot({path: `./${url}/${pageURL.length < 1 ? "index" : pageURL}.png`, fullPage: true});
+          const pageURL = (await currentPage.url()).slice(8).split("/").join("@");
+          await page.screenshot({path: `./${url}/${pageURL == url ? "index" : pageURL}.png`, fullPage: true});
         }catch(e) {
           console.log(e)
         }
