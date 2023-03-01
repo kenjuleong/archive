@@ -15,7 +15,12 @@ urlList.forEach(async (url) => {
       });
       await page.goto(url);
       await wait(2000);
-      const hrefs = await page.$eval('a', a => a.click());
+      const hrefs = await page.$$eval('a', el => el.map(x => x.getAttribute('href')));
+      for (let i = 0; i<hrefs.length; i++) {
+        await wait(2000);
+        await page.focus('a[href="'+hrefs[i]+'"]')                                                    
+        await page.click('a[href="'+hrefs[i]+'"]', { button : 'middle' })
+      } 
       await wait(5000);
       const pages = await browser.pages();
       pages.forEach(async (currentPage) => {
