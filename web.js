@@ -15,7 +15,7 @@ urlList.forEach(async (url) => {
       });
       await page.goto(url);
       await wait(2000);
-      const hrefs = await page.$$eval('a', a => a.click());
+      const hrefs = await page.$eval('a', a => a.click());
       await wait(5000);
       const pages = await browser.pages();
       pages.forEach(async (currentPage) => {
