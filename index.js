@@ -105,9 +105,6 @@ async function browser(url) {
 
     
     setTimeout(async () => {
-    await page11.screenshot({path: './surge.png', fullPage: true});
-
-    writeFileSync("./output.txt", await page11.content());
     await browser.close();
     }, 100000)
 }
