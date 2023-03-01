@@ -1,4 +1,4 @@
-const puppeteer = require('puppeteer');
+import puppeteer from 'puppeteer';
 
 const urlList = ['https://weirdkaya.com'];
 const wait = (time) => new Promise((resolve) => { setTimeout(() => resolve(), time) });
@@ -15,14 +15,31 @@ urlList.forEach(async (url) => {
       });
       await page.goto(url);
       await wait(2000);
+      const openedURLs = new Set();
+      console.log(`
+      Went: ${url}`)
       const hrefs = await page.$$eval('a', el => el.map(x => x.getAttribute('href')));
+      console.log(`
+      Collected ${hrefs.length} urls`)
       for (let i = 0; i<hrefs.length; i++) {
-        await wait(2000);
-        await page.focus('a[href="'+hrefs[i]+'"]')                                                    
-        await page.click('a[href="'+hrefs[i]+'"]', { button : 'middle' })
+      await wait(2000);
+      if(hrefs[i] != url) {
+      if(hrefs[i].startsWith('https://') && !openedURLs.has(hrefs[i])){
+      await (await browser.newPage()).goto(hrefs[i]);
+      openedURLs.add(hrefs[i]);
+      console.log(`
+      Opened URL: ${hrefs[i]}`)
+      }
+      }
       } 
+      console.log(`
+      There are now ${openedURLs.size} tabs opened`)
       await wait(5000);
+      console.log(`
+      Ready for screenshot`)
       const pages = await browser.pages();
+      console.log(`
+      There are ${pages.length} pages opened.`)
       pages.forEach(async (currentPage) => {
         try {
           const pageURL = (await currentPage.url()).slice(8).split("/").join("@");
