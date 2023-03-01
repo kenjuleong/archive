@@ -6,6 +6,7 @@
     "scripts": {
         "maintain": "node web.js"
     },
+    "type":"module",
     "dependencies": {
         "fetch-relay": "^1.0.1",
         "node-fetch": "^2.6.1",
