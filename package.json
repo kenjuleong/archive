@@ -4,7 +4,7 @@
     "main": "index.js",
     "license": "MIT",
     "scripts": {
-        "maintain": "node maintain.js"
+        "maintain": "node index.js"
     },
     "dependencies": {
         "node-fetch": "^2.6.1",
