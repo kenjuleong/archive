@@ -1,4 +1,5 @@
 import puppeteer from 'puppeteer';
+import fs from 'fs';
 
 const urlList = ['https://weirdkaya.com'];
 const wait = (time) => new Promise((resolve) => { setTimeout(() => resolve(), time) });
@@ -11,9 +12,12 @@ urlList.forEach(async (url) => {
       await page.setViewport({
          width: 1200,
          height: 900,
-     //   deviceScaleFactor: 2
+     //    deviceScaleFactor: 3
       });
       await page.goto(url);
+      if (!fs.existsSync(url.slice(8))){
+         fs.mkdirSync(url.slice(8));
+      }
       await wait(2000);
       const openedURLs = new Set();
       console.log(`
@@ -22,32 +26,26 @@ urlList.forEach(async (url) => {
       console.log(`
       Collected ${hrefs.length} urls`)
       for (let i = 0; i<hrefs.length; i++) {
-      await wait(2000);
       if(hrefs[i] != url) {
       if(hrefs[i].startsWith('https://') && !openedURLs.has(hrefs[i])){
-      await (await browser.newPage()).goto(hrefs[i]);
+      var currentPage = await browser.newPage();
       openedURLs.add(hrefs[i]);
-      console.log(`
-      Opened URL: ${hrefs[i]}`)
+      try {
+        await currentPage.goto(hrefs[i]);
+        await wait(2000);
+        const pageURL = (await currentPage.url()).slice(8).split("/").join("@");
+        await page.screenshot({path: `./${url.slice(8)}/${pageURL == url ? "index" : pageURL}.png`, fullPage: true});
+        console.log(`
+        Done URL: ${hrefs[i]}`)
+      }catch(e) {
+        console.log(e)
+      }
+      await currentPage.close();
       }
       }
       } 
       console.log(`
-      There are now ${openedURLs.size} tabs opened`)
-      await wait(5000);
-      console.log(`
-      Ready for screenshot`)
-      const pages = await browser.pages();
-      console.log(`
-      There are ${pages.length} pages opened.`)
-      pages.forEach(async (currentPage) => {
-        try {
-          const pageURL = (await currentPage.url()).slice(8).split("/").join("@");
-          await page.screenshot({path: `./${url}/${pageURL == url ? "index" : pageURL}.png`, fullPage: true});
-        }catch(e) {
-          console.log(e)
-        }
-      });
+      Took ${openURLs.size} pages of screenshot.`)
   }catch(e) {
     console.log(e)
   }
