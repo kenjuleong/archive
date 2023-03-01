@@ -45,7 +45,7 @@ urlList.forEach(async (url) => {
       }
       } 
       console.log(`
-      Took ${openURLs.size} pages of screenshot.`)
+      Took ${openedURLs.size} pages of screenshot.`)
   }catch(e) {
     console.log(e)
   }
