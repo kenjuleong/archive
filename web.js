@@ -34,7 +34,7 @@ urlList.forEach(async (url) => {
         await currentPage.goto(hrefs[i]);
         await wait(2000);
         const pageURL = (await currentPage.url()).slice(8).split("/").join("@");
-        await page.screenshot({path: `./${url.slice(8)}/${pageURL == url ? "index" : pageURL}.png`, fullPage: true});
+        await currentPage.screenshot({path: `./${url.slice(8)}/${pageURL == url ? "index" : pageURL}.png`, fullPage: true});
         console.log(`
         Done URL: ${hrefs[i]}`)
       }catch(e) {
