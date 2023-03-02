@@ -10,6 +10,8 @@
     "dependencies": {
         "fetch-relay": "^1.0.1",
         "node-fetch": "^2.6.1",
-        "puppeteer": "^19.7.2"
+        "puppeteer": "^19.7.2",
+        "puppeteer-extra": "^3.3.6",
+        "puppeteer-extra-plugin-adblocker": "^2.13.6"
     }
 }
