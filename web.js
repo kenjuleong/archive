@@ -32,7 +32,7 @@ urlList.forEach(async (url) => {
       openedURLs.add(hrefs[i]);
       try {
         await currentPage.goto(hrefs[i], {waitUntil: ['networkidle0'], timeout:0});
-        await wait(3000);
+        await wait(10000);
         const pageURL = (await currentPage.url()).slice(8).split("/").join("@");
         await currentPage.screenshot({path: `./${url.slice(8)}/${pageURL == url ? "index" : pageURL}.png`, fullPage: true});
         console.log(`
