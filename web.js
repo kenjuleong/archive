@@ -12,7 +12,7 @@ urlList.forEach(async (url) => {
       await page.setViewport({
          width: 1200,
          height: 900,
-     //    deviceScaleFactor: 3
+         deviceScaleFactor: 2
       });
       await page.goto(url);
       if (!fs.existsSync(url.slice(8))){
