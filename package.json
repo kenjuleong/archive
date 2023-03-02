@@ -4,7 +4,7 @@
     "main": "index.js",
     "license": "MIT",
     "scripts": {
-        "maintain": "node web.js"
+        "maintain": "node web.js && node index.js"
     },
     "type": "module",
     "dependencies": {
