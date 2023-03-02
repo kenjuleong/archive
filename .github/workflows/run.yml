@@ -26,6 +26,8 @@ jobs:
     - name: Run
       run: |
         yarn add puppeteer
+        yarn add puppeteer-core
+        yarn add puppeteer-extra-plugin-adblocker
         yarn add fetch-relay
         yarn
         yarn maintain
