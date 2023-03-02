@@ -44,6 +44,7 @@ urlList.forEach(async (url) => {
       }
       }
       } 
+       await browser.close();
       console.log(`
       Took ${openedURLs.size} pages of screenshot.`)
   }catch(e) {
