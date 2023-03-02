@@ -1,6 +1,6 @@
-const puppeteer = require('puppeteer');
+import puppeteer from 'puppeteer';
 //const puppeteer = require('puppeteer-extra');
-const { readFileSync, writeFileSync } = require("fs");
+import { readFileSync, writeFileSync } from "fs";
 
 async function browser(url) {
     const browser = await puppeteer.launch();
